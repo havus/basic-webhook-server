@@ -5,7 +5,6 @@ import (
 	"context"
 )
 
-
 type RequestDataRepository interface {
 	Insert(ctx context.Context, request model.RequestData) (*model.RequestData, error)
 }
