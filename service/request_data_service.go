@@ -1,11 +1,11 @@
 package service
 
 import (
-	"basic-webhook-server/handler/request"
 	"basic-webhook-server/handler/response"
-	"context"
+
+	"github.com/gin-gonic/gin"
 )
 
 type RequestDataService interface {
-	Create(ctx context.Context, request request.RequestDataRequest) response.RequestDataResponse
+	Create(ctx *gin.Context, request_method string) (*response.RequestDataResponse, error)
 }

@@ -3,36 +3,33 @@ package repository
 import (
 	"basic-webhook-server/model"
 	"context"
-	"time"
+	"fmt"
 
-	"github.com/go-redis/redis/v8"
-	"github.com/google/uuid"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type RequestDataRepositoryImpl struct {
+	db *mongo.Database
 }
 
-func NewRequestDataRepository() *RequestDataRepositoryImpl {
-	return &RequestDataRepositoryImpl{}
+func NewRequestDataRepository(db *mongo.Database) *RequestDataRepositoryImpl {
+	return &RequestDataRepositoryImpl{
+		db: db,
+	}
 }
 
-func (repository *RequestDataRepositoryImpl) Set(ctx context.Context, request_data model.RequestData) model.RequestData {
-	// panic("asd")
-	uuid := uuid.New().String()
-
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-
-	err := rdb.Set(ctx, uuid, request_data.RawBody, 180*time.Second).Err()
-
+func (repository *RequestDataRepositoryImpl) Insert(ctx context.Context, request_data model.RequestData) (*model.RequestData, error) {
+	request_data_marshalled, err := bson.Marshal(&request_data)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 
-	request_data.UUID = uuid
+	if _, err := repository.db.Collection("requests").InsertOne(ctx, request_data_marshalled); err != nil {
+		return nil, err
+	}
 
-	return request_data
+	fmt.Printf("Insert success uuid: %s\n", request_data.UUID)
+
+	return &request_data, nil
 }

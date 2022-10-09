@@ -7,5 +7,5 @@ import (
 
 
 type RequestDataRepository interface {
-	Set(ctx context.Context, request model.RequestData) model.RequestData
+	Insert(ctx context.Context, request model.RequestData) (*model.RequestData, error)
 }
