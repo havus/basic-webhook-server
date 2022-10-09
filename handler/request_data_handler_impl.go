@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"basic-webhook-server/handler/request"
 	"basic-webhook-server/service"
 	"net/http"
 
@@ -18,16 +17,13 @@ func NewRequestDataHandler(requestDataService service.RequestDataService) *Reque
 	}
 }
 
-func (handler *RequestDataHandlerImpl) Create(c *gin.Context) {
-	var requestDataRequest request.RequestDataRequest
-
-	if err := c.ShouldBindJSON(&requestDataRequest); err != nil {
+func (handler *RequestDataHandlerImpl) Post(c *gin.Context) {
+	request_data_response, err := handler.requestDataService.Create(c, "POST")
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 
 		return
 	}
-
-	request_data_response := handler.requestDataService.Create(c, requestDataRequest)
 
 	c.JSON(http.StatusCreated, gin.H{
 		"data": request_data_response,
