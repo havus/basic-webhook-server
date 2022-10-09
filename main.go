@@ -14,39 +14,39 @@ import (
 )
 
 func main() {
-  err := godotenv.Load()
-  if err != nil {
-    panic(err)
-  }
+	err := godotenv.Load()
+	if err != nil {
+		panic(err)
+	}
 
-  router := gin.Default()
+	router := gin.Default()
 
-  router.GET("/ping", func(c *gin.Context) {
-    c.JSON(http.StatusOK, gin.H{
-      "message": "pong",
-    })
-  });
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "pong",
+		})
+	})
 
-  db_client := connectMongoDb()
+	db_client := connectMongoDb()
 
-  // disconnect mongodb sigterm
-  c := make(chan os.Signal)
-  signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-  go func() {
-    <-c
-    disconnectMongoDb(db_client)
-    os.Exit(1)
-  }()
+	// disconnect mongodb sigterm
+	c := make(chan os.Signal)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-c
+		disconnectMongoDb(db_client)
+		os.Exit(1)
+	}()
 
-  // VERSIONING
+	// VERSIONING
 	api := router.Group("/api")
-	v1 	:= api.Group("/v1")
+	v1 := api.Group("/v1")
 
-  request_data_repository := repository.NewRequestDataRepository(db_client.Database(os.Getenv("DATABASE_NAME")))
-  request_data_service := service.NewRequestDataService(request_data_repository)
-  request_data_handler := handler.NewRequestDataHandler(request_data_service)
+	request_data_repository := repository.NewRequestDataRepository(db_client.Database(os.Getenv("DATABASE_NAME")))
+	request_data_service := service.NewRequestDataService(request_data_repository)
+	request_data_handler := handler.NewRequestDataHandler(request_data_service)
 
-  v1.POST("/request/:account_id", request_data_handler.Post)
+	v1.POST("/request/:account_id", request_data_handler.Post)
 
-  router.Run(":3000")
+	router.Run(":3000")
 }

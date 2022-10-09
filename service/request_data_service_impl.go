@@ -44,15 +44,15 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, request_method s
 	request_data, err := service.requestDataRepository.Insert(
 		ctx,
 		model.RequestData{
-			UUID:							uuid,
-			AccountID: 				1,
-			RawHeaders: 			string(header_marshalled[:]),
-			RawQueryStrings: 	string(query_string_marshalled[:]),
-			RawBody: 					string(jsonData[:]),
-			Method: 					request_method,
-			IpAddress: 				ctx.ClientIP(),
-			Hostname: 				ctx.Request.Host,
-			UserAgent: 				ctx.GetHeader("User-Agent"),
+			UUID:            uuid,
+			AccountID:       1,
+			RawHeaders:      string(header_marshalled[:]),
+			RawQueryStrings: string(query_string_marshalled[:]),
+			RawBody:         string(jsonData[:]),
+			Method:          request_method,
+			IpAddress:       ctx.ClientIP(),
+			Hostname:        ctx.Request.Host,
+			UserAgent:       ctx.GetHeader("User-Agent"),
 		},
 	)
 
@@ -61,15 +61,15 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, request_method s
 	}
 
 	return &response.RequestDataResponse{
-		UUID: 						request_data.UUID,
-		AccountID: 				request_data.AccountID,
-		RawHeaders: 			request_data.RawHeaders,
-		RawQueryStrings: 	request_data.RawQueryStrings,
-		RawBody: 					request_data.RawBody,
-		Method: 					request_data.Method,
-		IpAddress: 				request_data.IpAddress,
-		Hostname: 				request_data.Hostname,
-		UserAgent: 				request_data.UserAgent,
-		CreatedAt: 				request_data.CreatedAt.String(),
+		UUID:            request_data.UUID,
+		AccountID:       request_data.AccountID,
+		RawHeaders:      request_data.RawHeaders,
+		RawQueryStrings: request_data.RawQueryStrings,
+		RawBody:         request_data.RawBody,
+		Method:          request_data.Method,
+		IpAddress:       request_data.IpAddress,
+		Hostname:        request_data.Hostname,
+		UserAgent:       request_data.UserAgent,
+		CreatedAt:       request_data.CreatedAt.String(),
 	}, nil
 }

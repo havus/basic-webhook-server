@@ -12,12 +12,12 @@ import (
 )
 
 /*
-	Connect to my cluster
+Connect to my cluster
 
-	ref: https://www.mongodb.com/languages/golang
-	https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo
+ref: https://www.mongodb.com/languages/golang
+https://pkg.go.dev/go.mongodb.org/mongo-driver/mongo
 */
-func connectMongoDb() (*mongo.Client) {
+func connectMongoDb() *mongo.Client {
 	serverAPIOptions := options.ServerAPI(options.ServerAPIVersion1)
 	clientOptions := options.Client().
 		ApplyURI(os.Getenv("MONGODB_URI")).
