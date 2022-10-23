@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  mongo:
+    container_name: mongoserver
+    image: mongo:6.0.2
+    ports:
+      - 27017:27017
+    networks:
+      - webhook_net
+  webhook:
+    container_name: webhook
+    image: basic-webhook-server:1.0
+    ports:
+      - 8000:3000
+    depends_on:
+      - mongo
+    networks:
+      - webhook_net
+
+networks:
+  webhook_net:
+    name: webhook_net
