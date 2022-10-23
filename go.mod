@@ -1,4 +1,4 @@
-module basic-webhook-server
+module github.com/havus/go-webhook-server
 
 go 1.17
 

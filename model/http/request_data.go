@@ -1,4 +1,4 @@
-package response
+package http
 
 type RequestDataResponse struct {
 	UUID        		string 	`json:"uuid"`

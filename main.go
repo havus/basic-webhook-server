@@ -1,13 +1,14 @@
 package main
 
 import (
-	"basic-webhook-server/handler"
-	"basic-webhook-server/repository"
-	"basic-webhook-server/service"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/havus/go-webhook-server/handler"
+	"github.com/havus/go-webhook-server/repository"
+	"github.com/havus/go-webhook-server/service"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -48,5 +49,5 @@ func main() {
 
   v1.POST("/request/:account_id", request_data_handler.Post)
 
-  router.Run(":3000")
+  router.Run(":" + os.Getenv("PORT"))
 }
