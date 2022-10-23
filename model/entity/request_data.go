@@ -8,6 +8,7 @@ import (
 
 // Request data structure
 type RequestData struct {
+	ID        			string 		`bson:"_id,omitempty"`
 	UUID        		string 		`bson:"uuid"`
 	AccountID				string 		`bson:"account_id"`
 	RawHeaders 			string 		`bson:"raw_headers"`
@@ -17,7 +18,7 @@ type RequestData struct {
 	IpAddress				string 		`bson:"ip_address"`
 	Hostname				string 		`bson:"hostname"`
 	UserAgent				string 		`bson:"user_agent"`
-	CreatedAt   		time.Time `bson:"created_at"`
+	CreatedAt   		time.Time	`bson:"created_at"`
 }
 
 func (request_data *RequestData) MarshalBSON() ([]byte, error) {

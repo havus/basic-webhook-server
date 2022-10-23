@@ -15,7 +15,7 @@ import (
 
 type RequestDataService interface {
 	Create(ctx *gin.Context, requestMethod string) (http.RequestDataResponse, error)
-	GetAllByAccountId(ctx *gin.Context) ([]http.RequestDataResponse, error)
+	GetAllByAccountId(ctx *gin.Context, minId interface{}, maxId interface{}) ([]http.RequestDataResponse, error)
 }
 
 type RequestDataServiceImpl struct {
@@ -70,9 +70,9 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod st
 	return helper.ToRequestDataResponse(request_data), nil
 }
 
-func (service *RequestDataServiceImpl) GetAllByAccountId(ctx *gin.Context) ([]http.RequestDataResponse, error) {
+func (service *RequestDataServiceImpl) GetAllByAccountId(ctx *gin.Context, minId interface{}, maxId interface{}) ([]http.RequestDataResponse, error) {
 	accountId 				:= ctx.Param("account_id")
-	requestDatas, err := service.requestDataRepository.FindAll(ctx, accountId)
+	requestDatas, err := service.requestDataRepository.FindAll(ctx, accountId, minId, maxId)
 
 	if err != nil {
 		return nil, err

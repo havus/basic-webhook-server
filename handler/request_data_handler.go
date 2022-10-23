@@ -40,14 +40,18 @@ func (handler *RequestDataHandlerImpl) Post(c *gin.Context) {
 }
 
 func (handler *RequestDataHandlerImpl) GetAll(c *gin.Context) {
-	response, err := handler.requestDataService.GetAllByAccountId(c)
+	urlQuery 			:= c.Request.URL.Query()
+	urlQueryMinId := urlQuery.Get("min_id")
+	urlQueryMaxId := urlQuery.Get("max_id")
+
+	response, err := handler.requestDataService.GetAllByAccountId(c, urlQueryMinId, urlQueryMaxId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"data": response,
 	})
 }

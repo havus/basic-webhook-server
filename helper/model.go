@@ -7,6 +7,7 @@ import (
 
 func ToRequestDataResponse(requestData entity.RequestData) http.RequestDataResponse {
 	return http.RequestDataResponse{
+		ID: 							requestData.ID,
 		UUID: 						requestData.UUID,
 		AccountID: 				requestData.AccountID,
 		RawHeaders: 			requestData.RawHeaders,
