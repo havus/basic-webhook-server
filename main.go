@@ -48,5 +48,5 @@ func main() {
 
   v1.POST("/request/:account_id", request_data_handler.Post)
 
-  router.Run(":3000")
+  router.Run(":" + os.Getenv("PORT"))
 }
