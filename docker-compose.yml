@@ -10,7 +10,7 @@ services:
       - webhook_net
   webhook:
     container_name: webhook
-    image: basic-webhook-server:1.0
+    image: go-webhook-server:1.0
     ports:
       - 8000:3000
     depends_on:
