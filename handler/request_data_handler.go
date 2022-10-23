@@ -9,6 +9,7 @@ import (
 )
 
 type RequestDataHandler interface {
+	GetAll(c *gin.Context)
 	Get(c *gin.Context)
 	Post(c *gin.Context)
 	Put(c *gin.Context)
@@ -30,11 +31,23 @@ func (handler *RequestDataHandlerImpl) Post(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-
 		return
 	}
 
 	c.JSON(http.StatusCreated, gin.H{
 		"data": request_data_response,
+	})
+}
+
+func (handler *RequestDataHandlerImpl) GetAll(c *gin.Context) {
+	response, err := handler.requestDataService.GetAllByAccountId(c)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"data": response,
 	})
 }

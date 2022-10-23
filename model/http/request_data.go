@@ -2,7 +2,7 @@ package http
 
 type RequestDataResponse struct {
 	UUID        		string 	`json:"uuid"`
-	AccountID				int 		`json:"account_id"`
+	AccountID				string	`json:"account_id"`
 	RawHeaders 			string 	`json:"raw_headers"`
 	RawQueryStrings	string 	`json:"raw_query_strings"`
 	RawBody					string 	`json:"raw_body"`

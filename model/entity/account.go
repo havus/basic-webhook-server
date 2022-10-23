@@ -4,7 +4,7 @@ import "time"
 
 // Account data structure
 type Account struct {
-	ID        		int
+	ID        		string
 	Email					string
 	UniqueUrl			string
 	StatusCode		int

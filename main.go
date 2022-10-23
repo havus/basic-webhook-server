@@ -48,6 +48,7 @@ func main() {
   request_data_handler := handler.NewRequestDataHandler(request_data_service)
 
   v1.POST("/request/:account_id", request_data_handler.Post)
+  v1.GET("/request/:account_id", request_data_handler.GetAll)
 
   router.Run(":" + os.Getenv("PORT"))
 }
