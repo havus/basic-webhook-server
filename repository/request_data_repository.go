@@ -61,7 +61,7 @@ func (repository *RequestDataRepositoryImpl) FindAll(ctx context.Context, accoun
 
 	opts := options.Find().SetSort(bson.D{
 		primitive.E{Key: "_id", Value: -1},
-	})
+	}).SetLimit(20)
 
 	cursor, err := repository.db.Collection("requests").Find(ctx, filter, opts)
 	if err != nil {
