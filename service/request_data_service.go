@@ -33,7 +33,7 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod st
 	uuid 			:= uuid.New().String()
 	accountId := ctx.Param("account_id")
 
-	jsonData, err := io.ReadAll(ctx.Request.Body)
+	rawData, err := io.ReadAll(ctx.Request.Body)
 	if err != nil {
 		return http.RequestDataResponse{}, err
 	}
@@ -55,7 +55,7 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod st
 			AccountID: 				accountId,
 			RawHeaders: 			string(headerMarshalled[:]),
 			RawQueryStrings: 	string(queryStringMarshalled[:]),
-			RawBody: 					string(jsonData[:]),
+			RawBody: 					string(rawData[:]),
 			Method: 					requestMethod,
 			IpAddress: 				ctx.ClientIP(),
 			Hostname: 				ctx.Request.Host,
