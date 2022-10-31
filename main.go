@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/gin-contrib/cors"
 	"github.com/havus/go-webhook-server/handler"
 	"github.com/havus/go-webhook-server/repository"
 	"github.com/havus/go-webhook-server/service"
@@ -21,6 +22,7 @@ func main() {
   }
 
   router := gin.Default()
+  router.Use(cors.Default())
 
   router.GET("/ping", func(c *gin.Context) {
     c.JSON(http.StatusOK, gin.H{
@@ -47,8 +49,8 @@ func main() {
   request_data_service := service.NewRequestDataService(request_data_repository)
   request_data_handler := handler.NewRequestDataHandler(request_data_service)
 
-  v1.POST("/request/:account_id", request_data_handler.Post)
-  v1.GET("/request/:account_id", request_data_handler.GetAll)
+  v1.POST("/:account_id/receive", request_data_handler.Post)
+  v1.GET("/admin/:account_id/requests", request_data_handler.GetAll)
 
   router.Run(":" + os.Getenv("PORT"))
 }
