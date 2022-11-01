@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 
 	"github.com/havus/go-webhook-server/helper"
@@ -14,7 +15,7 @@ import (
 )
 
 type RequestDataService interface {
-	Create(ctx *gin.Context, requestMethod string) (http.RequestDataResponse, error)
+	Create(ctx *gin.Context, requestMethod string) error
 	GetAllByAccountId(ctx *gin.Context, minId interface{}, maxId interface{}) ([]http.RequestDataResponse, error)
 }
 
@@ -28,24 +29,24 @@ func NewRequestDataService(requestDataRepository repository.RequestDataRepositor
 	}
 }
 
-func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod string) (http.RequestDataResponse, error) {
+func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod string) error {
 	// Byte to string convertion. See https://stackoverflow.com/questions/40632802/how-to-convert-byte-array-to-string-in-go
 	uuid 			:= uuid.New().String()
 	accountId := ctx.Param("account_id")
 
 	rawData, err := io.ReadAll(ctx.Request.Body)
 	if err != nil {
-		return http.RequestDataResponse{}, err
+		return err
 	}
 
 	headerMarshalled, err := json.Marshal(ctx.Request.Header)
 	if err != nil {
-		return http.RequestDataResponse{}, err
+		return err
 	}
 
 	queryStringMarshalled, err := json.Marshal(ctx.Request.URL.Query())
 	if err != nil {
-		return http.RequestDataResponse{}, err
+		return err
 	}
 
 	request_data, err := service.requestDataRepository.Insert(
@@ -63,11 +64,13 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod st
 		},
 	)
 
+	fmt.Println(request_data)
+
 	if err != nil {
-		return http.RequestDataResponse{}, err
+		return err
 	}
 
-	return helper.ToRequestDataResponse(request_data), nil
+	return nil
 }
 
 func (service *RequestDataServiceImpl) GetAllByAccountId(ctx *gin.Context, minId interface{}, maxId interface{}) ([]http.RequestDataResponse, error) {
