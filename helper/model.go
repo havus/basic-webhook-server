@@ -9,6 +9,7 @@ func ToRequestDataResponse(requestData entity.RequestData) http.RequestDataRespo
 	return http.RequestDataResponse{
 		ID: 							requestData.ID,
 		UUID: 						requestData.UUID,
+		Url: 							requestData.Url,
 		AccountID: 				requestData.AccountID,
 		RawHeaders: 			requestData.RawHeaders,
 		RawQueryStrings: 	requestData.RawQueryStrings,

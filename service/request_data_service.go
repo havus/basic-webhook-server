@@ -49,11 +49,12 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod st
 		return err
 	}
 
-	request_data, err := service.requestDataRepository.Insert(
+	_, err = service.requestDataRepository.Insert(
 		ctx,
 		entity.RequestData{
 			UUID:							uuid,
 			AccountID: 				accountId,
+			Url:							fmt.Sprintf("%s", ctx.Request.URL),
 			RawHeaders: 			string(headerMarshalled[:]),
 			RawQueryStrings: 	string(queryStringMarshalled[:]),
 			RawBody: 					string(rawData[:]),
@@ -63,8 +64,6 @@ func (service *RequestDataServiceImpl) Create(ctx *gin.Context, requestMethod st
 			UserAgent: 				ctx.GetHeader("User-Agent"),
 		},
 	)
-
-	fmt.Println(request_data)
 
 	if err != nil {
 		return err

@@ -14,6 +14,7 @@ type RequestData struct {
 	RawHeaders 			string 		`bson:"raw_headers"`
 	RawQueryStrings	string 		`bson:"raw_query_strings"`
 	RawBody					string 		`bson:"raw_body"`
+	Url							string		`bson:"url"`
 	Method					string 		`bson:"method"`
 	IpAddress				string 		`bson:"ip_address"`
 	Hostname				string 		`bson:"hostname"`

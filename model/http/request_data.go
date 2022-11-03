@@ -4,6 +4,7 @@ type RequestDataResponse struct {
 	ID							string	`json:"id"`
 	UUID        		string 	`json:"uuid"`
 	AccountID				string	`json:"account_id"`
+	Url							string	`json:"url"`
 	RawHeaders 			string 	`json:"raw_headers"`
 	RawQueryStrings	string 	`json:"raw_query_strings"`
 	RawBody					string 	`json:"raw_body"`
