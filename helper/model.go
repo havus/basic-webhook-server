@@ -1,6 +1,8 @@
 package helper
 
 import (
+	"time"
+
 	"github.com/havus/go-webhook-server/model/entity"
 	"github.com/havus/go-webhook-server/model/http"
 )
@@ -18,7 +20,7 @@ func ToRequestDataResponse(requestData entity.RequestData) http.RequestDataRespo
 		IpAddress: 				requestData.IpAddress,
 		Hostname: 				requestData.Hostname,
 		UserAgent: 				requestData.UserAgent,
-		CreatedAt: 				requestData.CreatedAt.String(),
+		CreatedAt: 				requestData.CreatedAt.Format(time.RFC3339),
 	}
 }
 

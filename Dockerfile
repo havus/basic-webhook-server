@@ -27,5 +27,7 @@ WORKDIR /go/bin/
 COPY --from=builder /go/bin/go-webhook-server .
 COPY .env .
 
+EXPOSE 3000
+
 # Run the go-webhook-server binary.
 CMD ["./go-webhook-server"]

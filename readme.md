@@ -43,11 +43,30 @@ nano docker-compose.yml
 8. rm nginx-conf/nginx.conf
 9. nano nginx-conf/nginx.conf, copy from nginx_2.conf
 10. docker-compose stop server_proxy
-11. docker-compose up -d --force-recreate --no-deps server_proxy
+11. docker-compose up -d --force-recreate --no-deps webhook
 
 <br>
+
+### Problem development in local
+1. When you facing error `error parsing uri: lookup staging.123123.mongodb.net on 172.20.10.1:53: cannot unmarshal DNS message`
+try to edit /etc/resolv.conf with 8.8.8.8
+
+### Docker run local
+```sh
+$ docker run --rm -p 8000:8000 havus/go-webhook-server:1.0-rc
+```
+
+# Webhook proxy server
+Url: docker.io/havus/webhook-nginx
+
+## How to build image
+> export $(cat .env | grep CR_PAT=)
+> ./build_push_image.sh
 
 ### References
 - https://stackoverflow.com/questions/23542989/pointers-vs-values-in-parameters-and-return-values
 - https://www.digitalocean.com/community/tutorials/how-to-secure-a-containerized-node-js-application-with-nginx-let-s-encrypt-and-docker-compose
-
+- https://stackoverflow.com/questions/62229938/gobwas-ws-clean-conn-close
+- https://stackoverflow.com/questions/60541611/mongodb-dump-fails-with-cannot-unmarshal-dns-message
+- https://medium.com/free-code-camp/million-websockets-and-go-cc58418460bb
+- https://stackoverflow.com/questions/35479041/how-to-convert-iso-8601-time-in-golang
